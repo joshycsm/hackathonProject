@@ -5,20 +5,21 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+require 'rest-client'
+
 
 UserImage.destroy_all
 User.destroy_all
 Image.destroy_all
 
-require ‘rest-client’
-    image_response = RestClient.get(“https://api.nasa.gov/planetary/apod?api_key=Y8DYngjtyF9bVRPqWpmyjYihBeFnVYvdOLyWcE0v&count=20”)
+    image_response = RestClient.get("https://api.nasa.gov/planetary/apod?api_key=Y8DYngjtyF9bVRPqWpmyjYihBeFnVYvdOLyWcE0v&count=100")
     image_result = JSON.parse(image_response)
     image_result.map do |photo_of_day|
         Image.create(
-            date: photo_of_day[“date”],
-            title: photo_of_day[“title”],
-            url: photo_of_day[“url”],
-            explanation: photo_of_day[“explanation”]
+            date: photo_of_day["date"],
+            title: photo_of_day["title"],
+            url: photo_of_day["url"],
+            explanation: photo_of_day["explanation"]
         )
     end
 

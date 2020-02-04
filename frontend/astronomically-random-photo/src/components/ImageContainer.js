@@ -12,12 +12,11 @@ const ImageContainer = (props) => {
     })
 
     return (
-        <div className="images">
-            <h1 className="header">All Images</h1>
-            <div className="all-images">
-                { allImages }
-            </div>
+
+        <div className="all-images">
+            { allImages }
         </div>
+
     )
 }
 

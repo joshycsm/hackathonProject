@@ -6,7 +6,7 @@ import ImageSearch from './components/ImageSearch'
 import ImageContainer from './components/ImageContainer'
 // import AddImageForm from './components/AddImageForm'
 
-const BASE_URL = 'https://api.nasa.gov/planetary/apod?api_key=Y8DYngjtyF9bVRPqWpmyjYihBeFnVYvdOLyWcE0v&count=5'
+const BASE_URL = 'http://localhost:3000/images'
 
 class App extends Component {
   state = {
@@ -23,29 +23,51 @@ class App extends Component {
 
   expandImage = image => {
       this.setState({
-        toggledIamge: [...this.state.toggledImage, image]
+        toggledImage: [image]
       })
-    }
+  }
   
+  updateSearchTerm = searchTerm => {
+    this.setState({ searchTerm })
+  }
 
-  // updateSearchTerm = searchTerm => {
-  //   this.setState({ searchTerm })
-  // }
-
-  
-
-
+  filteredImages = () => {
+    const { allImages, searchTerm } = this.state
+    return allImages.filter(image => {
+      return (image.title
+        .toLowerCase()
+        .includes(searchTerm)
+      ) || (image.explanation
+        .toLowerCase()
+        .includes(searchTerm)
+      ) || (image.date
+        .toString()
+        .includes(searchTerm)
+      )
+    })
+  }
 
   render(){
     return (
       <div className="App">
         <Header />
-        <ToggledImage />
-        <ImageSearch />
-        <ImageContainer 
-        allImages={this.state.allImages}
-        imageAction={this.expandImage} 
+        
+        <ToggledImage 
+        toggledImage={this.state.toggledImage}
+        imageAction={this.expandImage}
         />
+        <div className="images">
+          <ImageSearch 
+          searchTerm={this.state.searchTerm}
+          updateSearchTerm={this.updateSearchTerm}
+          />
+
+          <ImageContainer 
+          allImages={this.filteredImages()}
+          imageAction={this.expandImage} 
+          />
+        </div>
+
       </div>
     )
   }

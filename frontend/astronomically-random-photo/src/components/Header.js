@@ -2,7 +2,7 @@ import React from 'react'
 
 const Header = () => {
     return (
-        <h1 className="header">Astronomical Photos</h1>
+        <h1 id="main-header">Astronomical Photos</h1>
     )
 }
 
